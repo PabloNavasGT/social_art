@@ -1,0 +1,41 @@
+.commissions-wrapper { width: 100%; max-width: 960px; }
+.section-title { margin-bottom: 18px; font-size: 1.4rem; }
+
+.commissions-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  height: 75vh;
+  overflow: hidden;
+}
+
+.commissions-sidebar-list { border-right: 1px solid var(--border-color); overflow-y: auto; }
+.comm-item { padding: 14px 16px; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: 0.2s; }
+.comm-item:hover, .comm-item.active { background: var(--bg-elevated); }
+
+.comm-status-badge { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; font-weight: 700; }
+.comm-status-badge.pendiente { background: rgba(255, 193, 7, 0.2); color: #ffd54f; }
+.comm-status-badge.aceptada { background: rgba(5, 255, 161, 0.2); color: var(--accent-mint); }
+.comm-status-badge.rechazada { background: rgba(255, 42, 109, 0.2); color: var(--accent-pink); }
+
+.chat-panel { display: flex; flex-direction: column; height: 100%; }
+.empty-chat-state { margin: auto; color: var(--text-secondary); }
+
+.chat-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+
+.msg-bubble { max-width: 72%; padding: 10px 14px; border-radius: 14px; font-size: 0.9rem; line-height: 1.4; }
+.msg-bubble.mine { align-self: flex-end; background: var(--accent-cyan); color: #090b10; font-weight: 500; }
+.msg-bubble.theirs { align-self: flex-start; background: var(--bg-elevated); color: var(--text-primary); }
+
+.chat-input-bar { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border-color); }
+.chat-input-bar input { flex: 1; }

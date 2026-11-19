@@ -1,0 +1,122 @@
+.profile-wrapper { width: 100%; max-width: 900px; }
+.profile-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.profile-handle-top { font-weight: 700; font-size: 1.05rem; }
+
+.btn-back {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.btn-back:hover { border-color: var(--accent-cyan); }
+
+.ig-profile-header { display: flex; align-items: center; gap: 36px; padding: 10px 12px 26px; }
+.ig-avatar-wrapper { position: relative; flex-shrink: 0; }
+
+.avatar-plus-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  color: #090b10;
+  border: 3px solid var(--bg-main);
+  font-weight: 900;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ig-profile-details { display: flex; flex-direction: column; gap: 10px; }
+.ig-name-actions-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.ig-display-name { font-size: 1.45rem; font-weight: 700; }
+
+.profile-action-btns { display: flex; gap: 10px; }
+
+.btn-follow {
+  background: var(--accent-cyan);
+  color: #090b10;
+  border: none;
+  padding: 7px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-follow.following { background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-color); }
+
+.btn-comm-request {
+  background: linear-gradient(135deg, var(--accent-pink), #ff5e8e);
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.commission-switch-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background: var(--bg-elevated);
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  font-size: 0.82rem;
+}
+
+.commission-switch-label input { accent-color: var(--accent-mint); width: 16px; height: 16px; }
+
+.ig-stats-row { display: flex; gap: 28px; margin: 2px 0; }
+.ig-stat-box { display: flex; flex-direction: column; }
+.ig-stat-box strong { font-size: 1.15rem; font-weight: 800; }
+.ig-stat-box span { font-size: 0.85rem; color: var(--text-secondary); }
+
+.ig-bio-name { font-size: 0.92rem; font-weight: 600; color: var(--accent-cyan); }
+.ig-bio-date { font-size: 0.8rem; color: var(--text-secondary); }
+
+.divider { border: none; border-top: 1px solid var(--border-color); margin-bottom: 24px; }
+
+.ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.grid-item {
+  aspect-ratio: 1 / 1;
+  background: var(--bg-surface);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+}
+
+.grid-item img, .grid-item video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+
+.grid-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 11, 16, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.grid-item:hover img, .grid-item:hover video { transform: scale(1.05); }
+.grid-item:hover .grid-item-overlay { opacity: 1; }
+
+@media (max-width: 768px) {
+  .ig-profile-header { gap: 20px; }
+  .ig-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+}

@@ -1,0 +1,86 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1000;
+}
+
+.modal-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 500px;
+  padding: 24px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.close-btn { background: transparent; border: none; color: var(--text-secondary); font-size: 1.8rem; cursor: pointer; line-height: 1; }
+.close-btn:hover { color: var(--accent-pink); }
+
+.drop-zone {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 14px;
+  transition: 0.2s;
+  background: var(--bg-main);
+}
+
+.drop-zone.dragover { border-color: var(--accent-cyan); background: rgba(0, 240, 255, 0.08); }
+.drop-icon { font-size: 1.8rem; margin-bottom: 6px; }
+.drop-hint { font-size: 0.78rem; color: var(--text-secondary); }
+
+.multi-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.preview-thumb { position: relative; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+.preview-thumb img, .preview-thumb video { width: 100%; height: 100%; object-fit: cover; }
+
+.remove-media-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(255, 42, 109, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.tag-input-container {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-input-container input { border: none; padding: 4px; flex: 1; min-width: 120px; }
+.selected-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag-chip-edit {
+  background: var(--bg-elevated);
+  color: var(--accent-cyan);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.socials-fieldset label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
+.socials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }

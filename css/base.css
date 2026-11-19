@@ -1,0 +1,107 @@
+:root {
+  --bg-main: #090b10;
+  --bg-surface: #11151f;
+  --bg-elevated: #181e2c;
+  --border-color: #232b3e;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --accent-cyan: #00f0ff;
+  --accent-pink: #ff2a6d;
+  --accent-mint: #05ffa1;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+.hidden { display: none !important; }
+
+.neon-cyan { color: var(--accent-cyan); text-shadow: 0 0 12px rgba(0, 240, 255, 0.4); }
+.neon-pink { color: var(--accent-pink); text-shadow: 0 0 12px rgba(255, 42, 109, 0.4); }
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+input, textarea {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus, textarea:focus { border-color: var(--accent-cyan); }
+
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, var(--accent-cyan), #00a8ff);
+  color: #05070a;
+  font-weight: 700;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 240, 255, 0.35);
+}
+
+.error-banner {
+  background: rgba(255, 42, 109, 0.15);
+  border: 1px solid var(--accent-pink);
+  color: #ff80a6;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-top: 14px;
+  text-align: center;
+}
+
+.avatar-circle {
+  background: linear-gradient(135deg, var(--accent-pink), var(--accent-cyan));
+  color: #090b10;
+  font-weight: 800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-circle.small { width: 38px; height: 38px; font-size: 1rem; }
+.avatar-circle.large {
+  width: 96px;
+  height: 96px;
+  font-size: 2.5rem;
+  border: 3px solid var(--bg-main);
+  box-shadow: 0 0 0 2px var(--accent-cyan);
+}
