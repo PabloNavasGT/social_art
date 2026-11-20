@@ -1,89 +1,48 @@
-const artworkRepository = require('../repositories/artwork.repository');
-const userRepository = require('../repositories/user.repository');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const path = require('path');
 
-class ArtworkService {
-  async publishArtwork(userId, artworkData, uploadedFiles = []) {
-    const { titulo, descripcion, etiquetas, redesSociales, urlsExternas } = artworkData;
+class MediaService {
+  constructor() {
+    this.bucketName = process.env.R2_BUCKET_NAME;
+    this.publicUrl = process.env.R2_PUBLIC_URL?.replace(/\/$/, '');
 
-    if (!titulo) {
-      throw { statusCode: 400, message: 'El título es obligatorio' };
-    }
-
-    // Construir lista de media (archivos arrastrados + URLs opcionales)
-    const mediaList = [];
-
-    uploadedFiles.forEach(file => {
-      const tipo = file.mimetype.startsWith('video/') ? 'video' : 'image';
-      mediaList.push({
-        url: `http://localhost:${process.env.PORT || 3000}/uploads/${file.filename}`,
-        tipo
-      });
-    });
-
-    if (urlsExternas) {
-      const parsedUrls = Array.isArray(urlsExternas) ? urlsExternas : JSON.parse(urlsExternas);
-      parsedUrls.forEach(item => {
-        if (item.url) mediaList.push({ url: item.url, tipo: item.tipo || 'image' });
-      });
-    }
-
-    if (mediaList.length === 0) {
-      throw { statusCode: 400, message: 'Debes subir al menos una imagen o video' };
-    }
-
-    // Procesar etiquetas (#fantasia, #oc -> ['fantasia', 'oc'])
-    let parsedTags = [];
-    if (etiquetas) {
-      const rawTags = Array.isArray(etiquetas) ? etiquetas : etiquetas.split(',');
-      parsedTags = [...new Set(
-        rawTags.map(t => t.trim().toLowerCase().replace(/^#/, '')).filter(Boolean)
-      )];
-    }
-
-    const parsedSocials = typeof redesSociales === 'string' 
-      ? JSON.parse(redesSociales) 
-      : (redesSociales || {});
-
-    return await artworkRepository.create({
-      titulo,
-      descripcion,
-      media: mediaList,
-      etiquetas: parsedTags,
-      redesSociales: parsedSocials,
-      autor: userId
+    this.s3 = new S3Client({
+      region: 'auto',
+      endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+      credentials: {
+        accessKeyId: process.env.R2_ACCESS_KEY_ID,
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY
+      }
     });
   }
 
-  async getFeed(page, limit, tag) {
-    const pageNum = Math.max(1, parseInt(page) || 1);
-    const limitNum = Math.min(50, Math.max(1, parseInt(limit) || 10));
-    return await artworkRepository.findAllPaginated(pageNum, limitNum, tag);
-  }
+  async uploadFile(file) {
+    if (!file || !file.buffer) {
+      throw { statusCode: 400, message: 'Archivo inválido o vacío' };
+    }
 
-  async getArtistProfileAndArtworks(artistId, requesterId) {
-    const artist = await userRepository.findById(artistId);
-    if (!artist) throw { statusCode: 404, message: 'Artista no encontrado' };
+    const tipo = file.mimetype.startsWith('video/') ? 'video' : 'image';
+    const ext = path.extname(file.originalname) || (tipo === 'video' ? '.mp4' : '.jpg');
+    const uniqueName = `${tipo}s/${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
 
-    const artworks = await artworkRepository.findByAuthorId(artistId);
-    const loSigo = requesterId 
-      ? artist.seguidores.some(id => id.toString() === requesterId)
-      : false;
+    const command = new PutObjectCommand({
+      Bucket: this.bucketName,
+      Key: uniqueName,
+      Body: file.buffer,
+      ContentType: file.mimetype
+    });
+
+    await this.s3.send(command);
 
     return {
-      artista: {
-        id: artist._id,
-        nombre: artist.nombre,
-        nombreArtista: artist.nombreArtista,
-        miembroDesde: artist.createdAt,
-        totalSeguidores: artist.seguidores.length,
-        totalSiguiendo: artist.siguiendo.length,
-        aceptaComisiones: artist.aceptaComisiones,
-        loSigo
-      },
-      totalPublicaciones: artworks.length,
-      publicaciones: artworks
+      url: `${this.publicUrl}/${uniqueName}`,
+      tipo
     };
+  }
+
+  async uploadMultipleFiles(files = []) {
+    return await Promise.all(files.map(file => this.uploadFile(file)));
   }
 }
 
-module.exports = new ArtworkService();
+module.exports = new MediaService();
